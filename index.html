@@ -1,0 +1,50 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Ching Virtual</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Mantenho o menu de navegação existente -->
+    <nav class="menu">
+        <a href="https://alexxanorafa.github.io/Tempo_e_Sonhos/" class="menu-item">Tempo e Sonhos</a>
+        <a href="https://alexxanorafa.github.io/posicionamentodosastros/" class="menu-item">Mapa Astral</a>
+        <a href="https://alexxanorafa.github.io/Aneis_da_Sabedoria/" class="menu-item">Anéis da Sabedoria</a>
+        <a href="https://alexxanorafa.github.io/TarodeMarselha/" class="menu-item">Tarô de Marselha</a>
+        <a href="https://alexxanorafa.github.io/Runas-do-Destino/" class="menu-item">Runas do Destino</a>
+        <a href="https://alexxanorafa.github.io/O-Construtor-do-Destino/" class="menu-item">O Construtor do Destino</a>
+        <a href="https://alexxanorafa.github.io/Tabuleiro-Quantico/" class="menu-item">Tabuleiro Quantico</a>
+        <a href="https://alexxanorafa.github.io/Oraculo-das-Pedras/" class="menu-item">Oráculo das Pedras</a>
+      </nav>
+
+    <div id="game-container">
+        <div class="surreal-bg">
+            <div class="cultural-glyphs">☰☷☲☳☴☵☶☷</div>
+            <div class="ethereal-rings">⚊⚋</div>
+        </div>
+
+        <div id="consult-panel" class="panel">
+            <h2>Faça sua pergunta ao I Ching</h2>
+            <textarea id="question-input" placeholder="Escreva sua questão interior..."></textarea>
+            <button id="cast-btn" class="btn">Lançar Moedas</button>
+        </div>
+
+        <div id="hexagram-container">
+            <div class="hexagram-lines"></div>
+            <div class="changing-lines"></div>
+        </div>
+
+        <div id="result-panel" class="panel hidden">
+            <h2 id="hexagram-title"></h2>
+            <div id="hexagram-symbol"></div>
+            <p id="hexagram-interpretation"></p>
+            <button id="new-consult-btn" class="btn">Nova Consulta</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
