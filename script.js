@@ -1,3 +1,29 @@
+    // ============ SISTEMA DE MENU ============
+    const menuIcon = document.getElementById("menuIcon");
+    const menu = document.getElementById("menu");
+
+    menuIcon.addEventListener("click", function(e) {
+        e.stopPropagation();
+        menu.classList.toggle("active");
+        menuIcon.classList.toggle("active");
+    });
+
+    document.addEventListener("click", function(e) {
+        if (!menu.contains(e.target) && !menuIcon.contains(e.target)) {
+            menu.classList.remove("active");
+            menuIcon.classList.remove("active");
+        }
+    });
+
+    document.querySelectorAll(".menu-item").forEach(item => {
+        item.addEventListener("mouseenter", function() {
+            this.style.transform = "translateY(-3px)";
+        });
+        item.addEventListener("mouseleave", function() {
+            this.style.transform = "translateY(0)";
+        });
+    });
+
 // script.js
 class IChingConsultant {
     constructor() {
