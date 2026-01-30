@@ -1,59 +1,489 @@
-<!-- index.html -->
+<!-- I Ching: Metaverso dos 64 Mundos – v3.2 -->
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Ching Virtual</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a1931">
+  <meta name="description" content="Consultas de I Ching com 64 hexagramas interativos">
+  <title>I Ching</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- Menu Navegação -->
-    <header>
-      <div class="menu-icon" id="menuIcon">
-          <span></span>
-          <span></span>
-          <span></span>
+<body class="iching-metaverse">
+  
+  <!-- Header: Consola de Controle -->
+  <header class="console-header">
+    <div class="console-left">
+      <div class="portal-logo" onclick="window.location.href='https://alexxanorafa.github.io/ecosystem/'" title="Voltar ao Ecosystem" aria-label="Voltar ao Ecosystem">
+        <div class="portal-rings">
+          <div class="portal-ring"></div>
+          <div class="portal-ring"></div>
+        </div>
+        <span class="portal-text">64 Portais</span>
       </div>
-      <nav class="menu" id="menu">
-        <ul class="menu-items" id="menuItems">
-            <a href="https://alexxanorafa.github.io/ecosystem/" class="menu-item">Voltar ao Ecosystem</a>
-        </ul>
+    </div>
+    
+    <div class="console-center">
+      <div class="status-display">
+        <div class="status-dot active"></div>
+        <span class="status-message">I Ching: 64 Mundos | Metaverso Online</span>
+      </div>
+    </div>
+    
+    <div class="console-right">
+      <nav class="console-nav" aria-label="Consola de navegação">
+        <button class="console-btn" id="consoleLibrary" title="Biblioteca (Histórico e Hexagramas)" aria-label="Abrir biblioteca">
+          <i class="fas fa-book"></i>
+        </button>
+        <button class="console-btn" id="consoleMethods" title="Métodos de Consulta" aria-label="Ver métodos">
+          <i class="fas fa-dice"></i>
+        </button>
+        <button class="console-btn" id="consoleHelp" title="Ajuda e Instruções" aria-label="Abrir ajuda">
+          <i class="fas fa-question"></i>
+        </button>
+        <button class="console-btn" id="consoleSettings" title="Configurações" aria-label="Abrir configurações">
+          <i class="fas fa-cog"></i>
+        </button>
       </nav>
+    </div>
   </header>
 
-    <div id="game-container">
-        <div class="surreal-bg">
-            <div class="cultural-glyphs">☰☷☲☳☴☵☶☷</div>
-            <div class="ethereal-rings">⚊⚋</div>
-        </div>
+  <!-- Overlay para o painel -->
+  <div class="panel-overlay" id="panelOverlay"></div>
 
-        <div id="consult-panel" class="panel">
-            <h2>Faça sua pergunta ao I Ching</h2>
-            <textarea id="question-input" placeholder="Escreva sua questão interior..."></textarea>
-            <button id="cast-btn" class="btn">Lançar Moedas</button>
+  <!-- Main: Layout Principal -->
+  <main class="main-grid" role="main" aria-label="Consulta do I Ching">
+    <!-- Coluna Principal (100%) -->
+    <section class="main-column">
+      
+      <!-- Título e Introdução -->
+      <div class="main-header">
+        <h1 class="main-title">I Ching: 64 Mundos</h1>
+        <p class="main-subtitle">O Livro das Mutações revela o movimento do Tao através de 64 padrões universais.</p>
+      </div>
+      
+      <!-- Estado Atual -->
+      <div class="state-container">
+        
+        <!-- Estado: Intenção (Padrão) -->
+        <div id="state-intention" class="state-section active" aria-labelledby="intention-heading">
+          <div class="intention-card">
+            <div class="card-header">
+              <h2 id="intention-heading"><i class="fas fa-pen-fancy"></i> Formula a Tua Questão</h2>
+              <div class="char-counter">
+                <span id="charCount">0</span>/280
+              </div>
+            </div>
+            
+            <textarea
+              id="intentionInput"
+              class="intention-field"
+              placeholder="Escreve aqui a tua questão, situação ou intenção..."
+              maxlength="280"
+              rows="4"
+              aria-label="Campo para escrever sua questão para o I Ching"
+            ></textarea>
+            
+            <div class="field-hint">
+              <i class="fas fa-lightbulb"></i>
+              <span>Quanto mais clara a intenção, mais profunda a revelação.</span>
+            </div>
+            
+            <div class="method-selector">
+              <div class="method-header">
+                <h3><i class="fas fa-tools"></i> Escolhe o Método de Consulta</h3>
+              </div>
+              
+              <div class="method-grid">
+                <div class="method-item active" data-method="coins" role="button" tabindex="0" aria-pressed="true">
+                  <div class="method-icon">
+                    <i class="fas fa-coins"></i>
+                  </div>
+                  <div class="method-info">
+                    <h4>3 Moedas</h4>
+                    <p>Método tradicional chinês</p>
+                    <small>Probabilidades autênticas</small>
+                  </div>
+                </div>
+                
+                <div class="method-item" data-method="stalks" role="button" tabindex="0" aria-pressed="false">
+                  <div class="method-icon">
+                    <i class="fas fa-seedling"></i>
+                  </div>
+                  <div class="method-info">
+                    <h4>50 Varetas</h4>
+                    <p>Método milenar (simulado)</p>
+                    <small>Processo ritualístico</small>
+                  </div>
+                </div>
+                
+                <div class="method-item" data-method="simple" role="button" tabindex="0" aria-pressed="false">
+                  <div class="method-icon">
+                    <i class="fas fa-random"></i>
+                  </div>
+                  <div class="method-info">
+                    <h4>Direto</h4>
+                    <p>Geração instantânea</p>
+                    <small>Para consultas rápidas</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <button id="consultBtn" class="primary-btn" disabled aria-describedby="intention-hint">
+              <i class="fas fa-door-open"></i>
+              <span>Abrir Portal do I Ching</span>
+              <div class="btn-glow"></div>
+            </button>
+            <div class="sr-only" id="intention-hint">Clique após escrever sua questão e escolher o método</div>
+          </div>
         </div>
+        
+        <!-- Estado: Formação -->
+        <div id="state-formation" class="state-section" aria-live="polite">
+          <div class="formation-card">
+            <div class="formation-header">
+              <h2><i class="fas fa-cogs"></i> Formando Hexagrama</h2>
+              <p id="formationStatus">Gerando linhas...</p>
+            </div>
+            
+            <div class="formation-visual">
+              <div class="hexagram-preview" aria-label="Visualização do hexagrama em formação">
+                <div class="hexagram-lines">
+                  <!-- Linhas serão geradas aqui -->
+                </div>
+                <div class="hexagram-symbol" id="formationSymbol" aria-live="polite"></div>
+              </div>
+              
+              <div class="formation-progress">
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                  <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-info">
+                  <span id="progressText">Iniciando...</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="formation-details">
+              <div class="detail-item">
+                <i class="fas fa-clock" aria-hidden="true"></i>
+                <div>
+                  <small>Tempo Estimado</small>
+                  <span id="estimatedTime">3 segundos</span>
+                </div>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-dice" aria-hidden="true"></i>
+                <div>
+                  <small>Método</small>
+                  <span id="currentMethod">3 Moedas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Estado: Revelação -->
+        <div id="state-revelation" class="state-section">
+          <div class="revelation-card">
+            <div class="revelation-header">
+              <div class="hexagram-badge">
+                <span class="hexagram-number" id="revealedNumber" aria-label="Número do hexagrama">01</span>
+                <span class="hexagram-name" id="revealedName" aria-label="Nome do hexagrama">O Criativo</span>
+              </div>
+              <div class="hexagram-symbol-lg" id="revealedSymbol" aria-label="Símbolo do hexagrama">⚊⚊⚊⚊⚊⚊</div>
+            </div>
+            
+            <div class="revelation-body">
+              <div class="revelation-section">
+                <h3><i class="fas fa-image"></i> A Imagem</h3>
+                <p class="revelation-text" id="revealedImage">
+                  Céu em movimento incessante, força que não cessa.
+                </p>
+              </div>
+              
+              <div class="revelation-section">
+                <h3><i class="fas fa-book-open"></i> Interpretação</h3>
+                <p class="revelation-text" id="revealedInterpretation">
+                  Força criativa em ação. Tempo de liderança e iniciativa.
+                </p>
+              </div>
+              
+              <!-- Transformação (se houver) -->
+              <div id="transformationSection" class="revelation-section hidden">
+                <h3><i class="fas fa-exchange-alt"></i> Transformação</h3>
+                <div class="transformation-grid">
+                  <div class="transformation-item">
+                    <div class="transformation-symbol" id="originalSymbol">⚊⚊⚊⚊⚊⚊</div>
+                    <div class="transformation-label">Original</div>
+                  </div>
+                  <div class="transformation-arrow">
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                  </div>
+                  <div class="transformation-item">
+                    <div class="transformation-symbol" id="resultSymbol">⚋⚋⚋⚋⚋⚋</div>
+                    <div class="transformation-label">Resultante</div>
+                  </div>
+                </div>
+                <p class="transformation-text" id="transformationText">
+                  Linhas mutantes indicam mudança significativa.
+                </p>
+              </div>
+              
+              <!-- Linhas Mutantes -->
+              <div id="mutantsSection" class="revelation-section hidden">
+                <h3><i class="fas fa-bolt"></i> Linhas Mutantes</h3>
+                <div class="mutants-list" id="mutantsList">
+                  <!-- Lista de linhas mutantes -->
+                </div>
+              </div>
+              
+              <!-- Eco da Intenção -->
+              <div class="revelation-section">
+                <h3><i class="fas fa-comment"></i> Tua Questão</h3>
+                <div class="intention-echo" id="intentionEcho">
+                  «A tua intenção será refletida aqui...»
+                </div>
+              </div>
+            </div>
+            
+            <div class="revelation-footer">
+              <button id="newConsultationBtn" class="primary-btn">
+                <i class="fas fa-redo"></i>
+                <span>Nova Consulta</span>
+              </button>
+              
+              <div class="action-buttons">
+                <button class="action-btn" id="shareBtn" title="Partilhar" aria-label="Partilhar consulta">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="action-btn" id="saveBtn" title="Guardar" aria-label="Guardar no histórico">
+                  <i class="fas fa-bookmark"></i>
+                </button>
+                <button class="action-btn" id="printBtn" title="Imprimir" aria-label="Imprimir consulta">
+                  <i class="fas fa-print"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="revelation-meta">
+              <span class="meta-item">
+                <i class="fas fa-calendar" aria-hidden="true"></i>
+                <span id="consultationDate">Hoje</span>
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-dice" aria-hidden="true"></i>
+                <span id="usedMethod">3 Moedas</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Padrão do Usuário (Mini) -->
+      <div class="pattern-mini">
+        <div class="pattern-header">
+          <h3><i class="fas fa-user-circle"></i> Seu Padrão</h3>
+          <button class="pattern-toggle" id="patternToggle" aria-label="Expandir ou recolher padrão">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>
+        <div class="pattern-content" id="patternContent">
+          <div class="pattern-stats">
+            <div class="pattern-stat">
+              <span class="stat-value" id="totalConsults">0</span>
+              <span class="stat-label">Consultas</span>
+            </div>
+            <div class="pattern-stat">
+              <span class="stat-value" id="dominantPattern">-</span>
+              <span class="stat-label">Dominante</span>
+            </div>
+          </div>
+          <div class="pattern-chips" id="patternChips">
+            <!-- Chips dos últimos hexagramas -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        <div id="hexagram-container">
-            <div class="hexagram-lines"></div>
-            <div class="changing-lines"></div>
-        </div>
-
-        <div id="result-panel" class="panel hidden">
-            <h2 id="hexagram-title"></h2>
-            <div id="hexagram-symbol"></div>
-            <p id="hexagram-interpretation"></p>
-            <button id="new-consult-btn" class="btn">Nova Consulta</button>
-        </div>
+  <!-- Painel Lateral (Overlay) -->
+  <aside class="side-panel collapsed" id="sidePanel" aria-label="Painel lateral da biblioteca">
+    <div class="panel-header">
+      <h3><i class="fas fa-th-large"></i> Biblioteca</h3>
+      <button class="panel-close" id="panelClose" aria-label="Fechar painel">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+    
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-tab="library" aria-controls="libraryTab">
+        <i class="fas fa-book"></i>
+        <span>Biblioteca</span>
+      </button>
+      <button class="panel-tab" data-tab="help" aria-controls="helpTab">
+        <i class="fas fa-question-circle"></i>
+        <span>Ajuda</span>
+      </button>
+    </div>
+    
+    <div class="panel-content">
+      <!-- Aba: Biblioteca (Histórico + Hexagramas) -->
+      <div class="tab-content active" id="libraryTab">
+        <div class="library-container">
+          <!-- Seção de Histórico -->
+          <div class="library-section">
+            <div class="tab-header">
+              <h4>Consultas Recentes</h4>
+              <div class="tab-actions">
+                <button class="tab-btn" id="exportHistory" title="Exportar" aria-label="Exportar histórico">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="tab-btn danger" id="clearHistory" title="Limpar" aria-label="Limpar histórico">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="history-list dense-content" id="historyList">
+              <!-- Histórico carregado aqui -->
+            </div>
+          </div>
+          
+          <!-- Separador -->
+          <div class="library-divider">
+            <span>Hexagramas</span>
+          </div>
+          
+          <!-- Seção de Hexagramas -->
+          <div class="library-section">
+            <div class="tab-header">
+              <h4>Os 64 Hexagramas</h4>
+              <div class="search-box compact">
+                <i class="fas fa-search"></i>
+                <input type="text" id="hexagramSearch" placeholder="Buscar por número ou nome..." aria-label="Buscar hexagramas">
+              </div>
+            </div>
+            <div class="hexagrams-grid compact-grid" id="hexagramsGrid">
+              <!-- Grid de hexagramas -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Aba: Ajuda -->
+      <div class="tab-content" id="helpTab">
+        <div class="tab-header">
+          <h4>Ajuda & Instruções</h4>
+        </div>
+        <div class="help-content">
+          <div class="help-item">
+            <h5><i class="fas fa-play"></i> Como Consultar</h5>
+            <p>1. Escreva sua questão com clareza</p>
+            <p>2. Escolha o método de consulta</p>
+            <p>3. Clique em "Abrir Portal"</p>
+            <p>4. Observe a formação do hexagrama</p>
+            <p>5. Estude a revelação</p>
+          </div>
+          <div class="help-item">
+            <h5><i class="fas fa-coins"></i> Método das 3 Moedas</h5>
+            <p>Cada moeda: Cara=3, Coroa=2</p>
+            <p>Soma das 3 moedas:</p>
+            <p>• 6 = Yin mutante (⚋)</p>
+            <p>• 7 = Yang (⚊)</p>
+            <p>• 8 = Yin (⚋)</p>
+            <p>• 9 = Yang mutante (⚊)</p>
+          </div>
+          <div class="help-item">
+            <h5><i class="fas fa-exchange-alt"></i> Linhas Mutantes</h5>
+            <p>Linhas 6 ou 9 são mutantes</p>
+            <p>Indicam mudança em progresso</p>
+            <p>Geram hexagrama adicional</p>
+            <p>Considerar ambos para interpretação completa</p>
+          </div>
+          <div class="help-item">
+            <h5><i class="fas fa-compress-arrows-alt"></i> Atalhos</h5>
+            <p>ESC: Fecha painel lateral</p>
+            <p>Biblioteca: Histórico + Hexagramas</p>
+            <p>Clique fora: Fecha painel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-    <script src="script.js"></script>
+  <!-- Modais Popup -->
+  <div class="modal-overlay" id="exportModal" role="dialog" aria-labelledby="exportModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="exportModalTitle"><i class="fas fa-file-export"></i> Exportar Dados</h3>
+        <button class="modal-close" aria-label="Fechar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="export-options">
+          <div class="export-option active" data-type="all" role="button" tabindex="0">
+            <i class="fas fa-archive"></i>
+            <span>Todos os Dados</span>
+          </div>
+          <div class="export-option" data-type="history" role="button" tabindex="0">
+            <i class="fas fa-history"></i>
+            <span>Apenas Histórico</span>
+          </div>
+          <div class="export-option" data-type="pattern" role="button" tabindex="0">
+            <i class="fas fa-chart-line"></i>
+            <span>Apenas Padrão</span>
+          </div>
+        </div>
+        <div class="export-preview">
+          <h4>Pré-visualização</h4>
+          <pre id="exportPreview"></pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" id="copyExport">Copiar</button>
+        <button class="modal-btn primary" id="downloadExport">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="importModal" role="dialog" aria-labelledby="importModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="importModalTitle"><i class="fas fa-file-import"></i> Importar Dados</h3>
+        <button class="modal-close" aria-label="Fechar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <textarea 
+          id="importData" 
+          placeholder="Cole aqui os dados JSON exportados..."
+          rows="6"
+          aria-label="Área para colar dados JSON"
+        ></textarea>
+        <div class="modal-info">
+          <i class="fas fa-info-circle"></i>
+          <span>Formato esperado: JSON do I Ching Metaverso</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" id="cancelImport">Cancelar</button>
+        <button class="modal-btn primary" id="confirmImport">Importar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Feedback -->
+  <div class="toast-container" id="toastContainer" role="status" aria-live="polite">
+    <div class="toast">
+      <i class="toast-icon"></i>
+      <span class="toast-message"></span>
+    </div>
+  </div>
+
+  <!-- Elementos para acessibilidade -->
+  <div class="sr-only" aria-live="polite" id="liveAnnouncements"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
